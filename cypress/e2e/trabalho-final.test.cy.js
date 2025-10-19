@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-import { fakerPT_BR as fakerPT_BR } from '@faker-js/faker';
 
 import cadastro from '../modules/cadastro';
 import dataForm from '../fixtures/dadosParaFormulario.json';
@@ -11,29 +10,15 @@ import {
 } from '../modules/menu';
 import { 
   preencheFormularioDePreCadastro, 
-  preencheFormularioDeLogin, 
-  email, 
-  loginUser,
-  password 
+  preencheFormularioDeLogin
 } from '../modules/login';
 
-describe('Automation Exercise, os cinco primeiros testes propostos', () => {  
+describe('Automation Exercise, testes propostos para o trabalho final da disciplina: Automação de Testes na camada de Interface (Web)', () => {  
     const uri = 'https://automationexercise.com/',
       timestamp = Date.now(),
       loginUser = 'Caso Teste 1',
       password = '1234',
-      email = 'caso_teste_1@email.com',
-      primeiroNomeEndereco = "PGATS 2 - Primeiro Nome Endereço",
-      ultimoNomeEndereco = "PGATS 2 - Ultimo Nome Endereço",
-      empresa = "PAGATS 2 - Empresa",
-      endereco = "Rua do PGATS 2 - Endereço",
-      endereco2 = "Rua do PGATS 2 - Endereço 2",
-      pais = 'Austraila',
-      estado = 'PGATS 2 - Estado',
-      cidade = 'PGATS 2 - Cidade',
-      cep = '111 222 333 444',
-      cel = '1+ 9123453456'
-      
+      email = 'caso_teste_1@email.com'      
 
       beforeEach(() => {
         cy.visit(uri);
@@ -275,7 +260,7 @@ describe('Automation Exercise, os cinco primeiros testes propostos', () => {
 
   });
 
-  it.only("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
+  it("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');

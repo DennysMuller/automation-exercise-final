@@ -29,6 +29,9 @@ class Cadastro {
   }
 
   prencherFormularioDeCadastroCompleto() {
+    // Garante que os dados do usuário sejam gerados antes de preencher o formulário.
+    this.gerarDadosDeUsuario();
+
     // Verificar o conteúdo direto do texto:
     cy.get('h2.title.text-center b').should('contain.text', 'Enter Account Information')
     cy.get('input[type=radio]').check(this.dadosUsuario.title)
