@@ -1,0 +1,10 @@
+/cypress/e2e/2-advanced-examples
+/cypress/e2e/1-getting-started
+/cypress/screenshots
+/tmpBstackPackages
+/cypress/reports
+/node_modules
+/results
+/log
+npm_install_debug.log
+*.txt

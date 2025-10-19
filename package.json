@@ -1,0 +1,19 @@
+{
+  "name": "automation-exercise-final",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Erro: não especificou teste\" && exit 1"
+  },
+  "keywords": [
+    "Samuel Lucas"
+  ],
+  "author": "Dennys Müller",
+  "license": "ISC",
+  "description": "Trabalho final da disciplina: Automação de Testes na camada de Interface (Web)",
+  "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "cypress": "^13.7.3",
+    "cypress-mochawesome-reporter": "^4.0.2"
+  }
+}
