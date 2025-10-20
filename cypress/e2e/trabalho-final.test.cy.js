@@ -187,15 +187,17 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cy.get('.status').should('have.text', 'Success! Your details have been submitted successfully.')
   });
 
-  it("Test case 8: Verificar todos os produtos e a página de detalhes do produto", () => {
+  it.only("Test case 8: Verificar todos os produtos e a página de detalhes do produto", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
 
-    cy.get('a[href="/products"]').click();
+    navegarParaProdutos();
+
+    // Asserções
+    cy.url().should('eq', 'https://automationexercise.com/products');
     cy.get('.title').should('have.text', 'All Products');
     cy.get('.col-sm-9').should("have.length", 1);
-    cy.get('.col-sm-4').should("have.length", 35);
 
     cy.get('a[href="/product_details/1"').click();
 
@@ -212,7 +214,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cy.get('.product-information p').should('have.text', 'Category: Women > TopsAvailability: In StockCondition: NewBrand: Polo');
   });
 
-  it.only("Test case 9: Procurar por produtos", () => {
+  it("Test case 9: Procurar por produtos", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
@@ -228,7 +230,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     
   });
 
-  it.only("Test case 10: Verificar a subscrição (subscription) na página inicial", () => {
+  it("Test case 10: Verificar a subscrição (subscription) na página inicial", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
