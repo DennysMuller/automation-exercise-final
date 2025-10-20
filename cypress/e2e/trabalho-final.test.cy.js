@@ -168,26 +168,19 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
 
   });
 
-  it("Test Case 6: Enviar um formulário de contato com upload de arquivo", () => {
+  it.only("Test Case 6: Enviar um formulário de contato com upload de arquivo", () => {
     // Acessar formulário
     cy.get('a[href*=contact]').click()
 
-    // Formulário e nexar arquivo 
+    // Formulário e anexar arquivo
     preencherFormularioDeContato();
-
-    // cy.fixture('Lula_Ladrão.png').as('arquivo')
-    // cy.get('input[type=fiLe]').selectFile('@arquivo')
-    // cy.get('input[type=file] ') .selectFile('cypress/fixtures/example.json')
-    // cy.get('[name="upload_file"]').selectFile('@arquivo')
-
-    cy.get('[data-qa="submit-button"]').click()
 
     // asserts
     cy.get('.status').should('be.visible')
     cy.get('.status').should('have.text', 'Success! Your details have been submitted successfully.')
   });
 
-  it.only("Test case 8: Verificar todos os produtos e a página de detalhes do produto", () => {
+  it("Test case 8: Verificar todos os produtos e a página de detalhes do produto", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');

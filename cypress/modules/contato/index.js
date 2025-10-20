@@ -11,4 +11,5 @@ export function preencherFormularioDeContato () {
     cy.get('[data-qa="message"]').type(dataForm.message)
     cy.fixture('Lula_Ladrão.png').as('arquivo');
     cy.get('input[type=fiLe]').selectFile('@arquivo');
+    cy.get('[data-qa="submit-button"]').click();
 }
