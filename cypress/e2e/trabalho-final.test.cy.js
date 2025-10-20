@@ -11,7 +11,8 @@ import {
 } from '../modules/carrinho';
 import { 
   navegarParaLogin, 
-  efetuarLogout 
+  efetuarLogout, 
+  navegarParaProdutos
 } from '../modules/menu';
 import { 
   preencheFormularioDePreCadastro, 
@@ -211,13 +212,12 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cy.get('.product-information p').should('have.text', 'Category: Women > TopsAvailability: In StockCondition: NewBrand: Polo');
   });
 
-  it("Test case 9: Procurar por produtos", () => {
+  it.only("Test case 9: Procurar por produtos", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
 
-    cy.get('a[href="/products"]').click();
-    cy.get('.title').should('have.text', 'All Products');
+    navegarParaProdutos();
 
     cy.get('input[id="search_product"]').type('tshirt');
     cy.get('button[id="submit_search"]').click();
@@ -247,7 +247,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
 
   });
 
-  it.only("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
+  it("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
