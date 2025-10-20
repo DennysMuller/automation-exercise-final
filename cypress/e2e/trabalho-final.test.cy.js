@@ -5,6 +5,11 @@ import dataForm from '../fixtures/dadosParaFormulario.json';
 import { preencherFormularioDeContato } from '../modules/contato';
 import { limparLoginEmailPassword } from '../support/helpers';
 import { 
+  adicionarProdutosNoCarrinho,
+  navegarParaCarrinho,
+  fazerCheckout
+} from '../modules/carrinho';
+import { 
   navegarParaLogin, 
   efetuarLogout 
 } from '../modules/menu';
@@ -266,25 +271,16 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cy.url().should('eq', 'https://automationexercise.com/');
 
     // Adicionar os produtos, passo 8
-    cy.get('a[data-product-id="1"]').eq(1).click({force: true});
-    cy.get('button[data-dismiss="modal"]').click();
-    cy.get('a[data-product-id="5"]').eq(1).click({force: true});
-    cy.get('button[data-dismiss="modal"]').click();
-    cy.get('a[data-product-id="2"]').eq(1).click({force: true});
-    cy.get('button[data-dismiss="modal"]').click();
-    cy.get('a[data-product-id="29"]').eq(1).click({force: true});
-    cy.get('.modal-title').should('have.text', 'Added!')
-
-    // Ir para o carrinho e validar
-    cy.get('a[href="/view_cart"]').first().click({force: true});
-    cy.url().should('eq', 'https://automationexercise.com/view_cart');
+    adicionarProdutosNoCarrinho();
+    cy.get('.modal-title').should('have.text', 'Added!');
+    
+    // Ir para o carrinho e validar os produtos adicionados
+    navegarParaCarrinho();
     cy.get('.active').should('have.text', 'Shopping Cart');
     cy.get('.cart_product').should("have.length", 4);
 
-    // Fazer o checkou
-    cy.get('a.btn').click();
-    cy.get('.modal-title').should('be.visible').and('have.text', 'Checkout');
-    cy.get('a[href="/login"] u').click();
+    // Fazer o checkout
+    fazerCheckout();
 
     // Se inscrever no site, passos 4 até 7
     preencheFormularioDePreCadastro();
@@ -295,13 +291,13 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cadastro.gerarDadosDeUsuario(); 
     cadastro.prencherFormularioDeCadastroCompleto();
 
-    // Ir para o carrinho e validar 
-    cy.get('a[href="/view_cart"]').first().click({force: true});
-    cy.url().should('eq', 'https://automationexercise.com/view_cart');
+    // Ir para o carrinho e validar
+    navegarParaCarrinho();
     cy.get('.active').should('have.text', 'Shopping Cart');
     cy.get('.cart_product').should("have.length", 4);
 
-    // Fazer checkout
+    // Fazer segundo checkout, não compensa fazer uma nova função para apenas clicar no botão,
+    // pois o usuário já encontra-se logado
     cy.get('a.btn').click();
 
     // 12 Validar endereço e detalhes do pedido
@@ -343,7 +339,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
 
     // Informar dados do cartão, clicar no botão Pagar e confirmar o pedido
     cy.get('h2.heading').should('have.text', 'Payment');
-    cy.get('input[data-qa="name-on-card"]').type(loginUser);
+    cy.get('input[data-qa="name-on-card"]').type(cadastro.dadosUsuario.firstName + ' ' + cadastro.dadosUsuario.lastName);
     cy.get('input[data-qa="card-number"]').type(dataForm['card number']);
     cy.get('input[data-qa="cvc"]').type(dataForm.cvc);
     cy.get('input[data-qa="expiry-month"]').type(`${dataForm.mes}`);
