@@ -3,7 +3,7 @@
 import cadastro from '../modules/cadastro';
 import dataForm from '../fixtures/dadosParaFormulario.json';
 import { preencherFormularioDeContato } from '../modules/contato';
-import { limparLoginEmailPassword } from '../support/helpers';
+import { getEmailRandomico, limparLoginEmailPassword } from '../support/helpers';
 import { 
   adicionarProdutosNoCarrinho,
   navegarParaCarrinho,
@@ -228,13 +228,13 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     
   });
 
-  it("Test case 10: Verificar a subscrição (subscription) na página inicial", () => {
+  it.only("Test case 10: Verificar a subscrição (subscription) na página inicial", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
 
     cy.get('.single-widget h2').should('have.text', 'Subscription');
-    cy.get('input[id="susbscribe_email"]').type(email);
+    cy.get('input[id="susbscribe_email"]').type(getEmailRandomico());
     cy.get('button[id="subscribe"]').click();
     cy.get('.alert-success').should('have.text', 'You have been successfully subscribed!');
 
@@ -245,27 +245,9 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     // melhora a legibilidade do código.
     cy.get('.alert-success').should('be.visible').and('have.text', 'You have been successfully subscribed!');
 
-    // Deletar a conta incluída para testar o "teste 15"
-    cy.request({
-        method: "DELETE",
-        url: "https://automationexercise.com/api/deleteAccount",
-        failOnStatusCode: false,
-        form: true,
-        body: {
-            email: email,
-            password: password,
-        },
-        qs: {
-            email: email // ?email=valor_da_variavel_email
-          }
-    }).then((response) => {
-      cy.log(response.body)
-    });
-    //cy.get('[data-qa="account-deleted"]').should('be.visible').and('have.text', 'Account Deleted!');
-
   });
 
-  it("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
+  it.only("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
     cy.visit(uri);
     cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
