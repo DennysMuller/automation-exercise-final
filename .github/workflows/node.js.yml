@@ -3,7 +3,7 @@ name: Web E2E Tests
 on:
   #workflow_dispatch:
   push:
-    branches: [ master]
+    branches: [ main ]
 
 jobs:
   e2e-tests:
