@@ -3,8 +3,7 @@
 ## 📝 Resumo
 
 Este projeto consiste na automação de testes para a camada de interface (Web) do site [Automation Exercise](https://automationexercise.com/). O objetivo é validar funcionalidades da aplicação, seguindo os casos de teste propostos: 1 a 10.
-
-O escopo aborda diversos fluxos, como cadastro, login, busca de produtos e finalização de compra, demonstrando a aplicação de boas práticas de automação, como a organização do código em módulos (similar ao padrão Page Objects), a separação de responsabilidades e a utilização de arquivos de fixtures para gerenciamento de massa de dados.
+O escopo aborda diversos fluxos, como cadastro, login, busca de produtos, contato e finalização de compra, cobrindo os casos de teste **1, 2, 3, 4, 5, 6, 8, 9, 10 e 15**. A automação demonstra a aplicação de boas práticas, como a organização do código em módulos (similar ao padrão Page Objects), a separação de responsabilidades e a utilização de arquivos de fixtures para gerenciamento de massa de dados.
 
 ---
 
@@ -57,7 +56,19 @@ Existem duas formas principais de executar os testes:
     npx cypress run
     ```
 
-Após a execução em modo headless, um relatório em HTML será gerado na pasta `cypress/reports`.
+Após a execução em modo headless, um relatório em HTML será gerado na pasta `cypress/reports`. Isso é possível graças à configuração do `cypress-mochawesome-reporter` no arquivo `cypress.config.js`.
+
+---
+
+## 🔄 Integração Contínua (CI/CD)
+
+O projeto está configurado com um workflow de Integração Contínua utilizando **GitHub Actions** (definido em `.github/workflows/node.js.yml`).
+
+A cada `push` na branch `main`, o workflow é acionado para:
+1.  Configurar o ambiente Node.js.
+2.  Instalar as dependências do projeto.
+3.  Executar todos os testes do Cypress em modo headless.
+4.  Coletar os artefatos de teste (relatórios, screenshots de falhas e vídeos) e disponibilizá-los para download na página da execução do workflow, sob o nome `relatorios`.
 
 ---
 
