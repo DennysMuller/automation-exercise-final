@@ -25,7 +25,7 @@ import {
 const uri = 'https://automationexercise.com/',
 timestamp = Date.now();  
 
-describe('Automation Exercise, teste propostos para o trabalho final da disciplina: Automação de Testes na camada de Interface (Web)', () => {  
+describe('Automation Exercise, testes propostos para o trabalho final da disciplina: Automação de Testes na camada de Interface (Web)', () => {  
   context('Testes de Autenticação e Gerenciamento de Conta de Usuários', () => {
       beforeEach(() => {
         cy.visit(uri);
