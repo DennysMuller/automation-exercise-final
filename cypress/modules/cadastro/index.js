@@ -34,6 +34,7 @@ class Cadastro {
 
     // Verificar o conteúdo direto do texto:
     cy.get('h2.title.text-center b').should('contain.text', 'Enter Account Information')
+    cy.contains('h2.title.text-center', 'Enter Account Information').should('be.visible');
     cy.get('input[type=radio]').check(this.dadosUsuario.title)
     cy.get('[id="password"]').type(password, { log: false });
 

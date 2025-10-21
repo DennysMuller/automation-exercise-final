@@ -15,16 +15,17 @@ import {
   navegarParaProdutos
 } from '../modules/menu';
 import { 
+  loginUser,
+  password,
+  email,
   preencheFormularioDePreCadastro, 
   preencheFormularioDeLogin
 } from '../modules/login';
 
-describe('Automation Exercise, testes propostos para o trabalho final da disciplina: Automação de Testes na camada de Interface (Web)', () => {  
-    const uri = 'https://automationexercise.com/',
-      timestamp = Date.now(),
-      loginUser = 'Caso Teste 1',
-      password = '1234',
-      email = 'caso_teste_1@email.com'      
+const uri = 'https://automationexercise.com/',
+timestamp = Date.now();  
+
+describe('Automation Exercise, testes de autenticação e gerenciamento de conta de usuários propostos para o trabalho final da disciplina: Automação de Testes na camada de Interface (Web)', () => {  
 
       beforeEach(() => {
         cy.visit(uri);
@@ -102,10 +103,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     // Segundo a explicação do Samuel o contains implicitamente possue o should, logo não faz sentido deixar como estava
     // cy.contains('b', loginUser).should('have.text', 'Caso Teste 1');    
     cy.contains('b', loginUser);
-    // deletar
-    // cy.get('.nav.navbar-nav [href="/delete_account"]').click();
-    // cy.get('[data-qa="account-deleted"]').should('have.text', 'Account Deleted!');
-    // cy.get('[data-qa="continue-button"]').click();
+
   });
 
   it("Test Case 3: Login de usuário com email e senha inválidos", () => {
@@ -139,7 +137,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     
     // Asserção
     cy.contains('b', loginUser);
-    cy.get('i.fa-user').parent().should('contain', 'Caso Teste 1');
+    cy.get('i.fa-user').parent().should('contain', loginUser);
 
     // Act
     efetuarLogout();
@@ -159,16 +157,59 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cy.get('.signup-form h2').should('have.text', 'New User Signup!');
 
     preencheFormularioDePreCadastro(`loginUser - ${timestamp}`);
-    // cy.get('input[data-qa="signup-name"]').type(`loginUser - ${timestamp}`);
-    // cy.get('input[data-qa="signup-email"]').type(email);
-    // cy.get('button[data-qa="signup-button"]').click();
 
     // Asserção
     cy.get('#form p').should('have.text', 'Email Address already exist!');
 
   });
 
-  it.only("Test Case 6: Enviar um formulário de contato com upload de arquivo", () => {
+});
+
+describe('Automation Exercise, testes de navegação e compra de produtos, e contato propostos para o trabalho final da disciplina: Automação de Testes na camada de Interface (Web)', () => {
+    
+    beforeEach(() => {
+        cy.visit(uri);
+        // Validar se a logo está visível, para clicar na logo cy.get('.logo a').click();
+        cy.get('.logo').should('be.visible');
+        // Ou validar usando o include
+        cy.url().should('include', 'automationexercise.com');
+        // ou usando o equal é mais restritivo
+        cy.url().should('eq', 'https://automationexercise.com/');
+
+        // cy.get('a[href="/login"]').click();
+        navegarParaLogin();
+      });
+
+      afterEach(() => {
+        cy.request({
+          method: "GET",
+          url: `https://automationexercise.com/api/getUserDetailByEmail`,
+          failOnStatusCode: true,
+          form: false,
+          qs: {
+              email: email // ?email=valor_da_variavel_email
+            }
+        }).then((response) => {
+          cy.log(response.body)
+        });
+        cy.request({
+            method: "DELETE",
+            url: "https://automationexercise.com/api/deleteAccount",
+            failOnStatusCode: false,
+            form: true,
+            body: {
+                email: email,
+                password: password,
+            },
+            qs: {
+                email: email // ?email=valor_da_variavel_email
+              }
+        }).then((response) => {
+          cy.log(response.body)
+        })
+      });
+
+  it("Test Case 6: Enviar um formulário de contato com upload de arquivo", () => {
     // Acessar formulário
     cy.get('a[href*=contact]').click()
 
@@ -244,7 +285,6 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
 
   it("Test case 15: Fazer pedido: Registrar antes de finalizar a compra", () => {
     cy.visit(uri);
-    cy.get('.logo').should('be.visible');
     cy.url().should('eq', 'https://automationexercise.com/');
 
     // Adicionar os produtos, passo 8
@@ -261,6 +301,7 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
 
     // Se inscrever no site, passos 4 até 7
     preencheFormularioDePreCadastro();
+
     // Adicionar uma asserção para garantir que a navegação para a página de cadastro ocorreu
     cy.url().should('include', '/signup');
 
@@ -331,10 +372,6 @@ describe('Automation Exercise, testes propostos para o trabalho final da discipl
     cy.get('[data-qa="order-placed"]').should('be.visible').and('have.text', 'Order Placed!');
     cy.get('#form p').should('be.visible').and('have.text', 'Congratulations! Your order has been confirmed!');
 
-    // Deletar a conta incluída, PARA NÃO FAZER DUPLICAÇÃO DE CÓDIGO IREI COMENTAR A EXCLUSÃO DA CONTA
-    // cy.get('a[href="/"][data-qa="continue-button"]').click();
-    // cy.get('a[href="/delete_account"]').click();
-    // cy.get('[data-qa="account-deleted"]').should('be.visible').and('have.text', 'Account Deleted!');
   });
 
 }); 
